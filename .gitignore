@@ -1,0 +1,2 @@
+# Local evaluation settings — never commit your own .env
+.env

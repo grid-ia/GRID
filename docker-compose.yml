@@ -1,0 +1,156 @@
+# GRID — local evaluation stack.
+#
+# One command: `docker compose up -d`, then open http://localhost:${GRID_HTTP_PORT:-8080}.
+# Prebuilt, compiled backend (no source) + the obfuscated web app + a local database the
+# backend initialises on first boot. Evaluation TRIAL, capped at 10 active cases/user. See README.md and LICENSE.md.
+#
+# Images are published by the maintainer for linux/amd64 and linux/arm64; Docker selects
+# the matching architecture automatically.
+
+name: grid-eval
+
+services:
+  # Local database: a stock MySQL 8. It starts EMPTY -- on its first boot the GRID backend creates
+  # the two databases it uses (`eval` and `grid_eval`) plus `grid_registry`, the tables and the
+  # admin account (no demo data). Data persists in the `grid-db` volume across restarts (removed by
+  # `docker compose down -v`). lower_case_table_names must be set before the first initialisation.
+  db:
+    image: mysql:8.0
+    command: ["--lower_case_table_names=1"]
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD:-grid-eval}
+    volumes:
+      - grid-db:/var/lib/mysql
+    healthcheck:
+      # Over TCP on purpose: the temporary server MySQL runs while initialising has no networking,
+      # so this only passes once the real server is up.
+      test: ["CMD", "mysqladmin", "ping", "-h127.0.0.1", "--protocol=tcp", "-uroot", "-p${MYSQL_PASSWORD:-grid-eval}"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+      start_period: 30s
+    restart: unless-stopped
+
+  # The compiled GRID backend (API only, internal). Waits for the database, then serves
+  # GraphQL/REST on 9081 inside the compose network. Not published to the host — the web
+  # service is the single entry point. The backend uses two DB connections on the same
+  # server: PIL_DB_* -> fenalaw (legacy schema) and GRID_DB_* -> grid (operational tables).
+  grid:
+    image: ghcr.io/grid-ia/grid:eval
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      # Agnostic (core) tenant 'eval': one project database `eval` (core == app) + `grid_eval`.
+      GRID_TENANT: eval
+      GRID_DOMAIN_PACKS: core
+      GRID_DICT_PATH: /tmp/dict_eval
+      REDIS_URL: redis://redis:6379/1
+      PIL_DB_HOST: db
+      PIL_DB_PROTOCOL: mysql
+      PIL_DB_NAME: eval
+      PIL_DB_USER: root
+      PIL_DB_PASSWORD: ${MYSQL_PASSWORD:-grid-eval}
+      GRID_DB_HOST: db
+      GRID_DB_PROTOCOL: mysql
+      GRID_DB_NAME: grid_eval
+      GRID_DB_USER: root
+      GRID_DB_PASSWORD: ${MYSQL_PASSWORD:-grid-eval}
+      APP_DB_HOST: db
+      APP_DB_PROTOCOL: mysql
+      APP_DB_NAME: eval
+      APP_DB_USER: root
+      APP_DB_PASSWORD: ${MYSQL_PASSWORD:-grid-eval}
+      # GRID runs its own workflow engine — no extra container needed.
+      GRID_WORKFLOW_MODE: ${GRID_WORKFLOW_MODE:-native}
+      # AI: a small local model (the `mini-llm-engine` service) answers with no key by
+      # default; set your own provider below and it takes over.
+      GRID_AI_LOCAL_FALLBACK: ${GRID_AI_LOCAL_FALLBACK:-true}
+      GRID_AI_LOCAL_BASE_URL: http://mini-llm-engine:11434/v1
+      GRID_AI_LOCAL_MODEL: ${GRID_AI_LOCAL_MODEL:-qwen2.5-1.5b-instruct-q4_k_m.gguf}
+      GRID_AI_LOCAL_API_KEY: local-no-key
+      GRID_AI_PLATFORM_PROVIDER: ${GRID_AI_PLATFORM_PROVIDER:-}
+      GRID_AI_PLATFORM_MODEL: ${GRID_AI_PLATFORM_MODEL:-}
+      GRID_AI_PLATFORM_API_KEY: ${GRID_AI_PLATFORM_API_KEY:-}
+    volumes:
+      # Your uploaded documents (GED). Without this they would live in the container and vanish
+      # when it is recreated.
+      - grid-docs:/mnt/cpj/docs
+      # Optional: put your alpha-issued grid.license inside ./license/ (the folder is created empty
+      # if absent -> the build simply runs the trial). Read-write: GRID renews the licence in place
+      # before alpha's HTTPS certificate, which signs it, expires.
+      - ./license:/app/license
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket,sys; s=socket.socket(); s.settimeout(2); sys.exit(0 if s.connect_ex(('127.0.0.1',9081))==0 else 1)"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+    restart: unless-stopped
+
+  # Redis — GRID uses it for caching (tab_* catalogs) and session/state.
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+
+  # Small local language model so the AI assistant answers with no API key and no cost.
+  # On first start it fetches a ~1 GB model (one-time; cached in the `mini-llm-models`
+  # volume), then llama.cpp serves it. This is the heaviest optional piece — if you don't
+  # need the assistant, `docker compose stop mini-llm-engine mini-llm-download` (or set your
+  # own GRID_AI_PLATFORM_* key in .env and use that instead).
+  mini-llm-download:
+    image: python:3.11-slim
+    volumes:
+      - mini-llm-models:/models
+    environment:
+      GRID_AI_LOCAL_HF_REPO: ${GRID_AI_LOCAL_HF_REPO:-bartowski/Qwen2.5-1.5B-Instruct-GGUF}
+      GRID_AI_LOCAL_HF_FILE: ${GRID_AI_LOCAL_HF_FILE:-Qwen2.5-1.5B-Instruct-Q4_K_M.gguf}
+      GRID_AI_LOCAL_MODEL: ${GRID_AI_LOCAL_MODEL:-qwen2.5-1.5b-instruct-q4_k_m.gguf}
+    command: >
+      sh -c "
+      if [ ! -f /models/$${GRID_AI_LOCAL_MODEL} ]; then
+        echo 'Downloading local model (one-time)...' &&
+        pip install --no-cache-dir --quiet huggingface_hub &&
+        python3 -c \"import os; from huggingface_hub import hf_hub_download; p=hf_hub_download(repo_id=os.environ['GRID_AI_LOCAL_HF_REPO'], filename=os.environ['GRID_AI_LOCAL_HF_FILE'], local_dir='/models', local_dir_use_symlinks=False); os.replace(p, '/models/'+os.environ['GRID_AI_LOCAL_MODEL']);\" &&
+        echo 'Model ready.';
+      else echo 'Model already present.'; fi
+      "
+
+  mini-llm-engine:
+    image: ghcr.io/ggml-org/llama.cpp:server
+    depends_on:
+      mini-llm-download:
+        condition: service_completed_successfully
+    volumes:
+      - mini-llm-models:/models
+    environment:
+      LLAMA_ARG_MODEL: /models/${GRID_AI_LOCAL_MODEL:-qwen2.5-1.5b-instruct-q4_k_m.gguf}
+      LLAMA_ARG_CTX_SIZE: "8192"
+      LLAMA_ARG_HOST: 0.0.0.0
+      LLAMA_ARG_PORT: "11434"
+      LLAMA_ARG_CONT_BATCHING: "true"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 180s
+    restart: unless-stopped
+
+  # The obfuscated web app (Caddy): serves the SPA and proxies the API to grid:9081. The
+  # only service published to your machine.
+  web:
+    image: ghcr.io/grid-ia/grid-web:eval
+    depends_on:
+      grid:
+        condition: service_healthy
+    ports:
+      - "${GRID_HTTP_PORT:-8080}:8080"
+    restart: unless-stopped
+
+volumes:
+  grid-db:
+  grid-docs:
+  mini-llm-models:
