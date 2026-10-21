@@ -45,6 +45,8 @@ services:
     environment:
       # Agnostic (core) tenant 'eval': one project database `eval` (core == app) + `grid_eval`.
       GRID_TENANT: eval
+      # The sign-in form takes an e-mail address, so the first admin's login must be one.
+      GRID_ADMIN_LOGIN: ${GRID_ADMIN_LOGIN:-admin@grid.local}
       GRID_DOMAIN_PACKS: core
       GRID_DICT_PATH: /tmp/dict_eval
       REDIS_URL: redis://redis:6379/1
