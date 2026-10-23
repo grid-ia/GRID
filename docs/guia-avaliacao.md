@@ -143,3 +143,8 @@ Toda tarefa precisa de um **Evento** (o tipo da tarefa) e uma instalação nova 
 
 A avaliação termina com uma **licença assinada** emitida pela equipe do GRID. Com ela instalada, os limites de casos e
 usuários saem e a instalação passa ao regime licenciado. Pergunte à equipe do GRID como obtê-la.
+
+Se a sua instalação **não tem servidor de e-mail** (ou ele está fora do ar), o GRID continua funcionando sem e-mail, também
+licenciado: o cadastro e o login não pedem código por e-mail, a senha provisória e o código de convite aparecem na tela do
+administrador (**Reiniciar senha**, **Convidar**), "Esqueci minha senha" fica oculto e, depois do login, o sistema avisa que o
+serviço de e-mail está indisponível. Quando o servidor de e-mail voltar, o GRID volta ao fluxo normal sozinho.
