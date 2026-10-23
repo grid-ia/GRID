@@ -63,8 +63,9 @@ O **administrador** concentra poderes que nenhum outro usuário tem:
 - **Governa o Assistente de IA** — as regras inegociáveis que valem para todos.
 
 O cabeçalho do administrador tem atalhos próprios: o botão **Convidar alguém** e, no menu **☰** (canto
-direito), uma fileira de ícones — **cofre** (cadeado), **Administração de I.A.**, **Fluxos de trabalho**,
-**Integrações**, **Lixeira** e o **worker de limpeza da lixeira** (pausar/iniciar). O menu lateral ganha **Personalização**, com as
+direito), uma fileira de ícones — **cofre** (cadeado), **Administração de I.A.** (só onde há um AnythingLLM
+instalado), **Importar planilha**, **Esboço**, **Fluxos de trabalho**, **Integrações**, **Lixeira** e o **worker de
+limpeza da lixeira** (pausar/iniciar). O menu lateral ganha **Personalização**, com as
 tabelas de configuração (seção 10), e o menu **Ajuda** abre os **três** manuais: Usuário, Administrador e
 Construtor.
 
@@ -134,6 +135,11 @@ pede o **endereço residencial** (CEP, endereço, número, bairro, cidade e UF),
 com a conta e **você é avisado** — por e-mail e pelo sino de **Notificações** — de cada pessoa nova. Quem já
 tinha conta (e o próprio administrador) ganha uma Pessoa mínima, com nome e e-mail, no primeiro acesso.
 
+**Site de avaliação (imagem pública).** Não há convites: o botão **Convidar alguém** não aparece, o cadastro é
+livre (até **3 usuários**), a senha provisória aparece **na tela** e a Pessoa de cada usuário é criada no
+cadastro (a do administrador, no primeiro acesso). Quem esquecer a senha: **Usuário → Editar → Redefinir senha do
+usuário** e repasse a nova senha provisória que aparece na tela.
+
 Boas práticas: confirme o e-mail correto (é o login e o canal dos códigos) e oriente a equipe a
 usar **"Esqueci minha senha"** em vez de criar outra conta.
 
@@ -149,7 +155,8 @@ A tela **Usuários** é exclusiva do administrador. O registro de usuário guard
   alteram: apontar uma conta para a Pessoa de outro a faria agir como ele (suas tarefas, suas equipes, seus
   registros no acesso por equipe).
 - **Ativar/Inativar** — um usuário inativo não entra (nem pelo Google). Para quem sai da
-  equipe, **inative**: os registros da pessoa continuam no sistema.
+  equipe, **inative**: os registros da pessoa continuam no sistema. Na tela do usuário, marque **Usuário inativo**. Nos sites que exigem uma Pessoa para cada usuário (como o de
+  avaliação) a tela de usuário não tem **Novo** nem **Excluir**: as contas nascem do cadastro e saem por inativação.
 - Nos sites por convite, as contas são criadas pelo próprio convite; o administrador cuida
   do resto.
 
@@ -268,13 +275,14 @@ O menu lateral é montado **sozinho**, para cada usuário:
 
 - Cada tela entra no **grupo** definido para ela ("Cadastros", "Agenda e Tarefas"…); "/" cria
   subgrupos ("Cadastros/Financeiro").
-- Telas de **nível 0** somem para quem não é administrador; grupos com "Tabelas" no nome são
-  de configuração e só o administrador vê.
+- Telas de **nível 0** somem para quem não é administrador; tudo o que está em **Personalização** (e
+  grupos com "Tabelas" no nome) é configuração e só o administrador vê.
 - Uma tabela cujo grupo tem **o nome de outra tabela** vira **painel dentro dela** em vez de
   item de menu — é assim que as Partes aparecem dentro do Caso.
-- A **Personalização → Tabelas** reúne as tabelas de configuração, visíveis só para o administrador:
-  por exemplo **Célula** (a tela *Grupo de Trabalho*), **Equipe** (e suas listas), **Papel**, **Evento**,
-  **Situação do evento**, **Próximo evento**, **Prazo**, **Workflow**, **Tipo de documento** e **Usuário**.
+- A **Personalização** reúne as telas de configuração, visíveis só para o administrador, por assunto:
+  **Equipe** (Equipe Agenda e suas listas, Célula, Função, Unidade, Matéria), **Evento** (Evento,
+  Próximo evento, Encadeamento, Motivo, Situação, Prazo, Tipo de contagem, Workflow), **Caso** (Fases,
+  Papel), **Financeiro** (Conta contábil), **Documento** (Tipo de documento), **Usuário** e **Preferências**.
 - As tabelas que você cria entram em **Cadastros**, ou no grupo que você pedir ao
   `@architectus` (Guia do Construtor).
 
@@ -309,7 +317,8 @@ Os segredos são **somente-escrita** (aparece "••••••" quando defini
 | **Integrações e ambiente** | Chaves de APIs externas, antivírus. |
 | **Login com Google** | Client ID e chave de proteção do SSO. |
 
-Use **Testar conexão** em cada grupo antes de confiar numa credencial.
+Use **Testar conexão** em cada grupo antes de confiar numa credencial. Ao **bloquear** o cofre você pode
+informar uma nova senha para trocar a dele.
 
 ---
 
@@ -324,7 +333,8 @@ Os documentos ficam em **quatro volumes**, do mais quente ao mais frio:
 | **Coldline** | Exige **restauração** (tempo e custo). |
 | **Arquivo** | Restauração mais demorada. |
 
-- Defina **provedor** e **prefixos** no cofre; trocar de provedor **não migra** o que já existe.
+- Defina **provedor** e **prefixos** no cofre; trocar de provedor **não migra** o que já existe. No **site de
+  avaliação** o armazenamento é só o disco local (sem Google Cloud, Amazon S3 ou Azure).
 - **Mover entre volumes** arquiva o que é antigo; um pedido de restauração pendente nunca se
   perde.
 - **Antivírus (opcional):** cada arquivo enviado é verificado em segundo plano; infectado vira
@@ -360,10 +370,10 @@ transforma um processo de várias etapas em tarefas que andam sozinhas.
 
 | Bloco | O que faz |
 |---|---|
-| **Etapa (tarefa de usuário)** | Uma tarefa para alguém: evento, responsável, prazo e as **situações** permitidas (concluir, reagendar…). |
+| **Etapa de pessoa** (tarefa de usuário) | Uma tarefa para alguém: evento, responsável, prazo e as **situações** permitidas (concluir, reagendar…). |
 | **Decisão** | Escolhe o caminho conforme uma condição sobre os dados do fluxo. |
-| **Ação automática** | Faz algo sem ninguém: define variáveis, cria registros, aciona uma integração. |
-| **Ir para** | Salta para outro ponto do fluxo. |
+| **Ação do sistema** (ação automática) | Faz algo sem ninguém: define variáveis, cria registros, aciona uma integração. |
+| **Desvio** (ir para) | Salta para outro ponto do fluxo. |
 
 **Como um fluxo começa.** Ele é ligado a um ou mais **eventos** (tipos de tarefa). Quando
 alguém cria uma tarefa de um desses eventos, o fluxo inicia, e cada etapa aparece no **Quadro de
@@ -412,8 +422,9 @@ vez da equipe indica célula ou equipe sem membros.
 4. Na etapa do fluxo, escolha **Candidato = Célula** (ou Equipe) e informe qual.
 5. Confirme que cada membro tem **usuário ligado à sua Pessoa** — sem isso ele não vê nem assume a tarefa.
 
-O site de demonstração já traz um exemplo pronto: três equipes (Comercial, Pós-venda, Financeiro), uma
-célula cada, um analista por equipe e o dono do site como coordenador das três.
+Os sites de demonstração já trazem um exemplo pronto: três equipes (Comercial, Pós-venda, Financeiro), uma
+célula cada, um analista por equipe e o dono do site como coordenador das três. O **site de avaliação** começa
+sem equipes nem células.
 
 > **Regra ou fluxo?** Uma **regra automática** reage a um registro salvo ("se ficou pronto, crie
 > uma tarefa"). Um **fluxo** organiza uma sequência de etapas, pessoas e decisões.
@@ -421,7 +432,7 @@ célula cada, um analista por equipe e o dono do site como coordenador das três
 > Fluxos que vieram com o site e foram escritos em código aparecem **bloqueados** no desenhista:
 > podem ser vistos, não alterados.
 
-> **Onde montar a árvore.** Em **Personalização → Tabelas → Célula** (tela *Grupo de Trabalho*), com
+> **Onde montar a árvore.** Em **Personalização → Equipe → Célula** (tela *Grupo de Trabalho*), com
 > **Editar**: crie células, equipes e membros na própria árvore. Cada membro mostra o **papel** e a marca
 > **Pode atribuir** (a pessoa pode receber tarefas). O GRID **recusa** o mesmo membro duas vezes na mesma
 > equipe, com uma mensagem clara.
@@ -475,7 +486,8 @@ sincronização com o Google Agenda — veja o Manual do Usuário, seção 12.
 ## 16. Comunicação (e-mail, WhatsApp)
 
 - **E-mail** é usado em todo o sistema: convites, códigos de segurança, senhas provisórias,
-  avisos. Depende do **SMTP** no cofre. Garanta MX, SPF, DKIM, DMARC e PTR do domínio.
+  avisos. Depende do **SMTP** no cofre. O **site de avaliação** não tem e-mail: nenhuma tela envia mensagens, e
+  senhas e avisos aparecem na tela. Garanta MX, SPF, DKIM, DMARC e PTR do domínio.
 - **WhatsApp** pela API oficial da Meta, com o token no cofre: texto dentro da janela de
   conversa aberta pelo contato; mensagens proativas exigem modelo aprovado pela Meta. O envio
   automático passa pelos eventos de integração (seção 15).

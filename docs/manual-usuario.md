@@ -78,6 +78,11 @@ gratuitamente"**: um assistente em etapas pede seus dados, o aceite dos **Termos
 da **Política de Privacidade** e um **código de 6 dígitos** enviado ao seu e-mail. Ao
 concluir, você recebe uma **senha provisória**, que deve trocar no primeiro acesso.
 
+**Site de avaliação (imagem pública do GRID).** Sem servidor de e-mail, o cadastro livre tem só duas
+etapas — **Dados pessoais** e **Termos** — e **não pede código**: ao concluir, a **senha provisória aparece
+na tela** (anote-a; ela não é enviada). O site aceita até **3 usuários** além do administrador, e o quarto
+cadastro é recusado com um aviso. O endereço é obrigatório e o GRID cria a sua Pessoa junto com a conta.
+
 **Endereço no cadastro.** Em alguns sites, todo usuário precisa ter uma **Pessoa** cadastrada, e o
 formulário de registro pede também o **endereço residencial** (CEP, endereço, número, bairro, cidade e
 UF — o CEP preenche o resto). Esses campos são obrigatórios nesses sites. O GRID cria a sua Pessoa junto
@@ -93,8 +98,7 @@ Dicas:
 
 ## 3. Entrar no sistema (login)
 
-Na tela **"Acesse sua conta"**, informe e-mail e senha e clique em **Entrar**. Marque
-**"Lembrar meu e-mail"** para não redigitá-lo.
+Na tela **"Acesse sua conta"**, informe e-mail e senha e clique em **Entrar**.
 
 ### Segurança extra no login
 
@@ -112,13 +116,16 @@ Na tela **"Acesse sua conta"**, informe e-mail e senha e clique em **Entrar**. M
 Você recebe por e-mail uma senha temporária; ao entrar com ela, define uma nova. Isso também
 **desbloqueia** a conta.
 
+No **site de avaliação** não há e-mail: o link **Esqueci minha senha** não aparece e o login nunca pede
+código nem bloqueia a conta. Quem esquecer a senha pede ao administrador, que abre **Usuário → o usuário →
+Editar → Redefinir senha do usuário**; a nova senha provisória aparece na tela dele.
+
 ---
 
 ## 4. Conhecendo a tela: menu, cabeçalho e tempo real
 
-- **Menu lateral** — as telas do site, agrupadas. Num site novo: **Casos**, **Eventos** (com *Histórico
-  de evento* e *Notificação de evento*), **Notificações** (os seus avisos) e **Pessoas**, mais as telas que
-  o administrador criar. É **montado conforme o seu perfil**: você só vê o que pode usar (o administrador
+- **Menu lateral** — as telas do site, agrupadas. Num site novo: **Casos**, **Notificações** (os seus avisos) e **Pessoas**, mais as telas que
+  o administrador criar; as **Tarefas** abrem pelo botão do cabeçalho. É **montado conforme o seu perfil**: você só vê o que pode usar (o administrador
   vê também **Personalização**, com as tabelas de configuração). O menu pode ficar recolhido em ícones;
   passe o mouse ou clique na seta no rodapé para abri-lo.
 - **Ajuda** — último item antes de **Sair**: abre os manuais do seu perfil num leitor de texto dentro do
@@ -173,7 +180,7 @@ cadastro de Pessoa:
 
 **A sua própria chave de I.A.** fica no **chat** (seção 14): o botão de foguete na barra do chat abre
 **"Configuração do Assistente de Inteligência Artificial"** — provedor, chave (use **Verificar** antes de
-salvar) e modelo. A chave fica **cifrada**, vinculada só à sua conta, e só contas **validadas** podem
+salvar), modelo e a sua **senha atual**. A chave fica **cifrada**, vinculada só à sua conta, e só contas **validadas** podem
 configurá-la. Por segurança, **salvar a chave encerra a sua sessão**: entre de novo. A mesma janela traz o
 **Auto Instrutor**, que deixa o assistente sugerir e, com a sua confirmação, concluir etapas de fluxo.
 
@@ -192,9 +199,9 @@ com esse nome em **Meus Painéis** e ele passa a aparecer ali. Em **Meus Painéi
 visões, sem escrever consultas:
 
 1. **"Novo painel"** e um nome.
-2. **"Novo card"**: título, **tabela** de origem (qualquer tela que você pode ver, inclusive
-   as criadas pelo administrador), **tipo de gráfico** (indicador, barras, linhas, pizza,
-   lista), **agrupar por** (situação, responsável, mês…), **agregação** (contar, somar, média)
+2. **"Novo card"**: título, **tabela** de origem (comece pelo **Caso** ou pela **Pessoa** e
+   navegue até as tabelas ligadas a eles), **tipo de gráfico** (colunas, linha, pizza, área ou
+   **total**, o número/KPI), **agrupar por** (situação, responsável, mês…), **agregação** (contar, somar, média)
    e **filtros**.
 3. **Arraste e redimensione** os cards; o arranjo é salvo.
 
@@ -250,9 +257,11 @@ Todos respeitam as permissões: no Quadro, só move o cartão quem pode editar a
 **Pessoas** é o cadastro único de pessoas físicas e jurídicas — clientes, contatos,
 parceiros, fornecedores. Toda referência a uma pessoa, em qualquer tela, aponta para cá.
 
-- **Cadastrar/editar** — nome, CPF/CNPJ, contatos, endereço. O **CEP** preenche o endereço;
+- **Cadastrar/editar** — nome, CPF/CNPJ, contatos, endereço. Celular e data de nascimento só são obrigatórios
+  nos sites com o pacote jurídico. O **CEP** preenche o endereço quando você sai do campo;
   o sistema valida CPF/CNPJ, e-mail e telefones e **avisa se já existe** outro cadastro com o
-  mesmo e-mail ou CPF/CNPJ.
+  mesmo e-mail ou CPF/CNPJ (esse aviso só existe nos sites com o pacote jurídico; no núcleo e na avaliação
+  o GRID aceita dois cadastros iguais, então confira antes de salvar).
 - **Minhas informações** — o seu próprio cadastro de pessoa, aberto pelo seu avatar no cabeçalho (seção 5).
 
 ---
@@ -262,7 +271,7 @@ parceiros, fornecedores. Toda referência a uma pessoa, em qualquer tela, aponta
 O **Caso** é o registro central do trabalho: reúne número, assunto, responsável, valor,
 situação e, na mesma tela, as **Partes**, os **Documentos** e as **Tarefas**.
 
-- **Partes** — quem participa do caso e com qual **Papel** (cliente, responsável,
+- **Partes** (o painel aparece como **Participante**) — quem participa do caso e com qual **Papel** (cliente, responsável,
   fornecedor…). Os papéis são uma lista mantida pelo administrador.
 - **Botões do caso** — na tela de exibição: **Tarefas** (as tarefas ligadas a ele), **Eventos** (a linha do
   tempo do caso: o histórico de tudo o que aconteceu com as suas tarefas), **Documentos** e **Editar**.
@@ -271,7 +280,9 @@ situação e, na mesma tela, as **Partes**, os **Documentos** e as **Tarefas**.
 - **Excluir** um caso o tira das listagens; os dados continuam guardados.
 
 > **Limite de casos.** O plano do site pode incluir um número de casos. Ao atingir o limite,
-> a criação de um novo caso é recusada com um aviso; fale com o administrador.
+> a criação de um novo caso é recusada com um aviso; fale com o administrador. Um caso precisa ter
+> **número ou assunto** para ser salvo. No **site de avaliação** o limite é de **10 casos no total** e
+> excluir um caso **não devolve** a cota.
 
 ---
 
@@ -294,9 +305,11 @@ Cada tarefa tem um **evento** (o tipo de tarefa), descrição, responsável, dat
 - **Filtrar** abre a barra de filtros: **situação**, **período**, a **visão** (*Minhas*, *Monitoradas por
   mim*, *Agenda da pessoa*, *Solicitadas a outros*, *Solicitadas por*, *Vinculado* ou *Todas as
   agendas*) e a ordenação. O botão **Minhas Tarefas** do cabeçalho abre o quadro já na visão **Minhas**.
-- **Nova tarefa** cria uma tarefa avulsa. O **Vínculo** oferece só o que o seu site tem (por exemplo,
-  Pessoa e Caso).
-- **Conectar Google Agenda** e **Assinar agenda** estão no topo do quadro (seção 12).
+- **Nova tarefa** pede o **Evento** (o tipo da tarefa), o **Texto**, a **Pessoa solicitada** e o
+  **Vínculo**, que oferece só o que o seu site tem (por exemplo, Pessoa e Caso). Num site novo ainda não há
+  nenhum Evento: crie o primeiro pelo botão **Novo Evento** da própria tela. Bastam a **Descrição** e um
+  código curto; o **Tipo** já vem como *Compromisso*, que é o que faz a tarefa aparecer no quadro.
+- **Assinar agenda** está no topo do quadro; **Conectar Google Agenda** aparece só onde o site oferece (seção 12).
 
 ### O que a edição trava
 
@@ -420,7 +433,7 @@ Se não achar a **tela**, ele diz isso — e **não** responde "não há registr
 
 ### Comandos com "#"
 
-- **`#ajuda`** — tudo o que o assistente sabe fazer, por assunto.
+- **`#ajuda`** — os comandos do assistente (os nomes aparecem em inglês, como o assistente os conhece).
 - **`#ajuda <termo>`** — procura um assunto; com um resultado, mostra a explicação completa.
 
 ### Menções especiais

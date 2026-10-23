@@ -78,7 +78,8 @@ Os nomes "Caso", "Partes" e "Papel" são apenas rótulos: se na sua empresa o ca
 
 ## 3. Trazer a equipe: convites
 
-Sites novos são **somente por convite**: ninguém se cadastra sozinho.
+Sites novos são **somente por convite**: ninguém se cadastra sozinho. (No **site de avaliação** é o contrário:
+não há convites, o cadastro é livre até 3 usuários e a senha provisória aparece na tela.)
 
 1. No cabeçalho, clique em **"Convidar alguém"** (visível apenas para o administrador).
 2. Informe o **e-mail da pessoa** e clique em **"Enviar convite"**.
@@ -234,6 +235,11 @@ Limites: arquivo até **100 MB**, até **200 mil linhas** e até **60 colunas** 
 Se a planilha tiver mais colunas, o assistente pede que você escolha quais importar; ele
 nunca corta em silêncio.
 
+**Sem chave de IA?** Use **Importar planilha** (ícone de planilha no menu **☰** do cabeçalho, `/admin/import`).
+É um assistente em quatro etapas — **Arquivo, Planilha, Colunas, Importar** — com a mesma regra de tipos acima:
+você confere o tipo de cada coluna, dá **nome**, **grupo no menu** e **descrição** à tabela e o GRID a cria e carrega
+as linhas. Não depende de IA.
+
 **Linhas puladas.** Uma linha que não pode ser convertida (uma data impossível, por
 exemplo) é pulada e o resto continua. Ao final, o assistente informa **quantas** foram
 puladas e **por quê**, com o número da linha. Corrija a planilha e importe essas linhas
@@ -244,7 +250,8 @@ de novo, ou digite-as na tela.
 ## 7. Ligar recursos numa tabela
 
 Toda tabela que você constrói pode ganhar os mesmos recursos que as tabelas prontas têm.
-Peça ao `@architectus`, por exemplo: "ligue o calendário em Equipamentos".
+Peça ao `@architectus` (precisa de chave de IA), por exemplo: "ligue o calendário em Equipamentos". Sem ele, uma
+tabela importada fica só com lista, exibição, cadastro e edição.
 
 | Recurso | O que aparece | Precisa de |
 |---|---|---|
@@ -408,4 +415,4 @@ Uma assistência técnica controla ordens de serviço numa planilha.
 - [ ] **Inativar** quem sai da equipe (nunca excluir o usuário).
 - [ ] Revisar quem pode ver e editar cada tela (níveis de acesso).
 - [ ] Revisar as **regras inegociáveis** do assistente do site (Manual do Administrador,
-      seção 15).
+      seção 17).

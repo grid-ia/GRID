@@ -126,6 +126,7 @@ ships working defaults for a local trial; the values most people change:
 
 Step-by-step guides (Portuguese) are in [`docs/`](docs/):
 
+- [Trial guide](docs/guia-avaliacao.md) — start here: what the evaluation limits, the first day step by step, and how to leave it.
 - [User manual](docs/manual-usuario.md) — day-to-day use: cases, tasks, documents, search.
 - [Administrator manual](docs/manual-administrador.md) — users, access, tenant settings.
 - [Builder manual](docs/manual-construtor.md) — spreadsheet import and the dictionary editor.
