@@ -113,7 +113,7 @@ Toda tarefa precisa de um **Evento** (o tipo da tarefa) e uma instalação nova 
   **modelo** e informe a **sua senha atual**. Salvar encerra a sessão. A chave fica cifrada na sua conta e o uso é cobrado pelo
   provedor. Só então valem `@architectus`, `@assistens` e `@Agent` e o assistente passa a consultar os dados.
 
-`#ajuda` lista os comandos do assistente (os nomes aparecem em inglês).
+`#help` lista os comandos do assistente (nomes e descrições em inglês; `#ajuda` também funciona).
 
 ---
 
@@ -136,7 +136,7 @@ Toda tarefa precisa de um **Evento** (o tipo da tarefa) e uma instalação nova 
 | Limitação | Como contornar |
 |---|---|
 | O **CEP** consulta serviços externos (ViaCEP e BrasilAPI). Se os dois estiverem fora do ar, o endereço não é preenchido. | Digite o endereço e escolha a UF à mão. A busca roda quando você sai do campo CEP. |
-| O comando `#ajuda` do assistente mostra os nomes dos comandos em inglês. | É o nome interno dos comandos; as descrições do manual estão em português. |
+| O comando `#help` do assistente mostra tudo em inglês. | É de propósito: os comandos e as respostas do `#help` são em inglês; os manuais continuam em português. |
 | Sem chave própria, o assistente só conversa (modo limitado). | Cadastre a sua chave (seção 7). |
 
 ## 10. Como sair da avaliação

@@ -259,9 +259,9 @@ parceiros, fornecedores. Toda referência a uma pessoa, em qualquer tela, aponta
 
 - **Cadastrar/editar** — nome, CPF/CNPJ, contatos, endereço. Celular e data de nascimento só são obrigatórios
   nos sites com o pacote jurídico. O **CEP** preenche o endereço quando você sai do campo;
-  o sistema valida CPF/CNPJ, e-mail e telefones e **avisa se já existe** outro cadastro com o
-  mesmo e-mail ou CPF/CNPJ (esse aviso só existe nos sites com o pacote jurídico; no núcleo e na avaliação
-  o GRID aceita dois cadastros iguais, então confira antes de salvar).
+  o sistema valida CPF/CNPJ, e-mail e telefones e **não deixa salvar** uma pessoa cujo e-mail ou
+  CPF/CNPJ já pertence a outro cadastro (a mensagem aparece no próprio campo; ao editar, o cadastro não
+  conflita consigo mesmo).
 - **Minhas informações** — o seu próprio cadastro de pessoa, aberto pelo seu avatar no cabeçalho (seção 5).
 
 ---
@@ -433,8 +433,9 @@ Se não achar a **tela**, ele diz isso — e **não** responde "não há registr
 
 ### Comandos com "#"
 
-- **`#ajuda`** — os comandos do assistente (os nomes aparecem em inglês, como o assistente os conhece).
-- **`#ajuda <termo>`** — procura um assunto; com um resultado, mostra a explicação completa.
+- **`#help`** — os comandos do assistente, com os nomes e as descrições em inglês (`#ajuda` e `#ayuda` também funcionam).
+- **`#help <term>`** — procura um comando; com um resultado, mostra a explicação completa. Os nomes antigos em português
+  (por exemplo `#abrir_tarefa`) ainda são reconhecidos e levam ao comando atual (`#open_task`).
 
 ### Menções especiais
 
